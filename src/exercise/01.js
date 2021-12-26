@@ -62,6 +62,7 @@ function UserProvider({children}) {
     user,
   })
   const value = [state, dispatch]
+
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>
 }
 
@@ -71,6 +72,17 @@ function useUser() {
     throw new Error(`useUser must be used within a UserProvider`)
   }
   return context
+}
+
+async function updateUser(dispatch, user, updates) {
+  dispatch({type: 'start update', updates})
+  try {
+    const updatedUser = await userClient.updateUser(user, updates)
+    dispatch({type: 'finish update', updatedUser})
+  } catch (error) {
+    dispatch({type: 'fail update', error})
+    throw error
+  }
 }
 
 // 🐨 add a function here called `updateUser`
@@ -98,11 +110,7 @@ function UserSettings() {
   function handleSubmit(event) {
     event.preventDefault()
     // 🐨 move the following logic to the `updateUser` function you create above
-    userDispatch({type: 'start update', updates: formState})
-    userClient.updateUser(user, formState).then(
-      updatedUser => userDispatch({type: 'finish update', updatedUser}),
-      error => userDispatch({type: 'fail update', error}),
-    )
+    updateUser(userDispatch, user, formState).catch(e => {})
   }
 
   return (
