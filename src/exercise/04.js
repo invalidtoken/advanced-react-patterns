@@ -20,18 +20,12 @@ function useToggle() {
     }
   }
 
-  // 🐨 Add a property called `togglerProps`. It should be an object that has
-  // `aria-pressed` and `onClick` properties.
-  // 💰 {'aria-pressed': on, onClick: toggle}
   return {on, toggle, getTogglerProps}
 }
 
 function App() {
   const {on, getTogglerProps} = useToggle()
 
-  const anything = {
-    anything: '2000',
-  }
   return (
     <div>
       <Switch {...getTogglerProps({on})} />
@@ -47,8 +41,3 @@ function App() {
 }
 
 export default App
-
-/*
-eslint
-  no-unused-vars: "off",
-*/
