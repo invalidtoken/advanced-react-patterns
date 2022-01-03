@@ -103,7 +103,7 @@ function useToggle({
   const on = isUnControlled ? state.on : controlledOn
 
   useReadOnlySwitchWarning({
-    hasOnChange: !!onChange,
+    hasOnChange,
 
     controlPropValue: controlledOn,
     controlPropName: 'on',
